@@ -57,10 +57,45 @@ app.layout = html.Div(className='content', children=[
                          children=[
                              html.Div(id='marker-title', style={
                                  'fontSize': '24px'}, children="Manipulation de la carte"),
-                             html.Div(id='mode', style={
-                                 'fontSize': '16px'}),
-                             html.Div(id='theme', style={
-                                 'fontSize': '16px'})])]),
+                             html.Div([dcc.RangeSlider(
+                                    id='my-range-slider',
+                                    min=2011,
+                                    max=2019,
+                                    step=1,
+                                    value=[2011, 2019],
+                                    marks={
+                                    2011: {'label': '2011'},
+                                    2013: {'label': '2013'},
+                                    2015: {'label': '2015'},
+                                    2017: {'label': '2017'},
+                                    2019: {'label': '2019'}
+                                    },
+                                ),]),
+                             html.Div(id='theme', style={'fontSize': '20px'},
+                                    children="Couleur des points"
+                                 ),
+                             html.Div(
+                                 dcc.RadioItems(
+                                    options=[
+                                        {'label': 'Cause principale de déversement', 'value': 'cause'},
+                                        {'label': 'Âge des stations', 'value': 'age'},
+                                    ],
+                                    value='cause',
+                                    labelStyle={'display': 'block'}
+                                )),
+                                    html.Div(style={'fontSize': '20px'},
+                                    children="Taille des points"
+                                 ),
+                             html.Div(
+                                 dcc.RadioItems(
+                                    options=[
+                                        {'label': 'Durée de déversement', 'value': 'duree'},
+                                        {'label': 'Fréquence de déversements', 'value': 'freq'},
+                                    ],
+                                    value='duree',
+                                    labelStyle={'display': 'block'}
+                                )),
+                                 ])]),
     html.Div(className='viz-container', children=[
         dcc.Graph(
             id='map',
