@@ -20,18 +20,20 @@ import pandas as pd
 
 import preprocess
 import viz
+import os
 
 #from template import create_template
 #from modes import MODES
 
 
 app = dash.Dash(__name__)
-app.title = 'TP2 | INF8808'
+app.title = 'Surverses'
 
+os_path = os.path.abspath("./OS_clean.csv")
+step_path = os.path.abspath("./STEP.csv")
 
-
-dataframe_OS = pd.read_csv('d:/Python Projects/INF8808/Projet surverse/OS_clean.csv')
-dataframe_STEP = pd.read_csv('d:/Python Projects/INF8808/Projet surverse/STEP.csv')
+dataframe_OS = pd.read_csv(os_path)
+dataframe_STEP = pd.read_csv(step_path)
 
 dataframe_STEP = preprocess.correction_lat_long(dataframe_STEP)
 dataframe_merged = preprocess.valeur_total(dataframe_OS, dataframe_STEP)
@@ -42,7 +44,24 @@ app.layout = html.Div(className='content', children=[
         html.H1('Déversement des eaux non-traités dans les cours d\'eau du Québec'),
         html.H2('Texte d\'introduction')
     ]),
-    html.Main(className='viz-container', children=[
+    html.Div(
+            className='panel-div',
+            style={
+                'justifyContent': 'center',
+                'alignItems': 'center'},
+            children=[
+                html.Div(id='panel', style={
+                    'visibility': 'visible',
+                    'border': '1px solid black',
+                    'padding': '10px'},
+                         children=[
+                             html.Div(id='marker-title', style={
+                                 'fontSize': '24px'}, children="Manipulation de la carte"),
+                             html.Div(id='mode', style={
+                                 'fontSize': '16px'}),
+                             html.Div(id='theme', style={
+                                 'fontSize': '16px'})])]),
+    html.Div(className='viz-container', children=[
         dcc.Graph(
             id='map',
             className='graph',
@@ -54,7 +73,8 @@ app.layout = html.Div(className='content', children=[
                 doubleClick=False,
                 displayModeBar=False
             )
-        ),
+        )]),
+    html.Div(className='viz-container2', children=[
         dcc.Graph(
             id='line-chart',
             className='graph',

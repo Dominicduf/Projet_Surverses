@@ -1,0 +1,26 @@
+.panel-div {
+    justify-content: start;
+    height: 725px;
+    width: 300px;
+}
+
+.viz-container {
+    justify-content: start;
+    position: relative;
+    left: 375px;
+    top: -785px
+}
+
+.viz-container2 {
+    justify-content: start;
+    position: relative;
+    left: 0px;
+    top: -850px
+}
+
+#panel {
+    background-color: white;
+    position: relative;
+    left: 0px;
+    width: 350px
+}
