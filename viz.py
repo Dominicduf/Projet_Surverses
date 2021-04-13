@@ -23,3 +23,7 @@ def map(df):
                    size_max=15, zoom=2.6, mapbox_style='open-street-map', center=dict(lat=53 , lon =-70))
     fig.update_layout(height=725, width=1000)
     return fig
+
+def line_chart(df):
+    fig = px.line(df, x='Année', y='Durée de débordement (minutes)', color='Contexte du débordement')
+    return fig

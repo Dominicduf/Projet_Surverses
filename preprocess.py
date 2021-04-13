@@ -28,3 +28,12 @@ def valeur_total(my_df_OS, my_df_STEP):
 
     df_sum = my_df_OS_group.merge(my_df_STEP, right_on='Nom de la station d\'épuration', left_on= 'Nom de la station d\'épuration ')
     return df_sum
+
+
+def valeur_année(df):
+    df = df[['Nom de la station d\'épuration ','Durée de débordement (minutes)','Numéro de l\'ouvrage de surverse','Contexte du débordement', 'Date de début du débordement']]
+    df['Date de début du débordement'] = pd.to_datetime(df['Date de début du débordement'])
+    df['Année'] = df['Date de début du débordement'].dt.year
+    df_année = df.groupby(['Année','Contexte du débordement']).agg({'Durée de débordement (minutes)': 'sum'}).reset_index()
+    df_année = df_année.sort_values(by=['Contexte du débordement','Année'])
+    return df_année

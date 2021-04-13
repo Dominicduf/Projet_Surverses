@@ -35,39 +35,37 @@ dataframe_STEP = pd.read_csv('d:/Python Projects/INF8808/Projet surverse/STEP.cs
 
 dataframe_STEP = preprocess.correction_lat_long(dataframe_STEP)
 dataframe_merged = preprocess.valeur_total(dataframe_OS, dataframe_STEP)
+dataframe_année = preprocess.valeur_année(dataframe_OS)
 
-def init_app_layout(figure):
-    '''
-        Generates the HTML layout representing the app.
-
-        Args:
-            figure: The figure to display.
-        Returns:
-            The HTML structure of the app's web page.
-    '''
-    return html.Div(className='content', children=[
-        html.Header(children=[
-            html.H1('Déversement des eaux non-traités dans les cours d\'eau du Québec'),
-            html.H2('Texte d\'introduction')
-        ]),
-        html.Main(children=[
-            html.Div(className='viz-container', children=[
-                dcc.Graph(
-                    figure=figure,
-                    config=dict(
-                        scrollZoom=True,
-                        showTips=False,
-                        showAxisDragHandles=False,
-                        doubleClick=False,
-                        displayModeBar=False
-                    ),
-                    className='map',
-                    id='line-chart'
-                )
-            ])
-        ])
+app.layout = html.Div(className='content', children=[
+    html.Header(children=[
+        html.H1('Déversement des eaux non-traités dans les cours d\'eau du Québec'),
+        html.H2('Texte d\'introduction')
+    ]),
+    html.Main(className='viz-container', children=[
+        dcc.Graph(
+            id='map',
+            className='graph',
+            figure=viz.map(dataframe_merged),
+            config=dict(
+                scrollZoom=True,
+                showTips=False,
+                showAxisDragHandles=False,
+                doubleClick=False,
+                displayModeBar=False
+            )
+        ),
+        dcc.Graph(
+            id='line-chart',
+            className='graph',
+            figure=viz.line_chart(dataframe_année),
+            config=dict(
+                scrollZoom=False,
+                showTips=False,
+                showAxisDragHandles=False,
+                doubleClick=False,
+                displayModeBar=False
+            )
+        )
     ])
-
-
-fig = viz.map(dataframe_merged)
-app.layout = init_app_layout(fig)
+])
