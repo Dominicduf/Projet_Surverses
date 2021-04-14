@@ -3,7 +3,7 @@
 
 '''
     File name: app.py
-    Author: Dominic Dufour, Antoine Rincet, Daniel Lussier-Seguin
+    Author: Dominic Dufour, Antoine Rincent, Daniel Lussier-Seguin
     Course: INF8808
     Python Version: 3.8
 
