@@ -22,14 +22,17 @@ def map(df):
     fig = px.scatter_mapbox(df, lat='Latitude de l\'émissaire', lon='Longitude de l\'émissaire', size='Durée de débordement (minutes)',
                    size_max=15, zoom=2.6, mapbox_style='open-street-map', center=dict(lat=53 , lon =-70))
     fig.update_layout(height=725, width=1000)
+    fig.layout.paper_bgcolor ="rgb(209, 222, 224)"
     return fig
 
 def line_chart(df):
     fig = px.line(df, x='Année', y='Durée de débordement (minutes)', color='Contexte du débordement')
+    fig.layout.paper_bgcolor ="rgb(209, 222, 224)"
     return fig
 
 def bar_chart(df):
     df_sorted = df.sort_values(by=['Durée de débordement (minutes)'])
     fig = px.bar(df_sorted, x='Nom de la station d\'épuration', y='Durée de débordement (minutes)')
     fig.update_xaxes(visible=False)
+    fig.layout.paper_bgcolor ="rgb(209, 222, 224)"
     return fig

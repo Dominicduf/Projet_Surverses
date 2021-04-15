@@ -57,7 +57,9 @@ app.layout = html.Div(className='content', children=[
                          children=[
                              html.Div(id='marker-title', style={
                                  'fontSize': '24px'}, children="Manipulation de la carte"),
-                             html.Div([dcc.RangeSlider(
+                             html.Div([
+                                    html.Div(id='slider-drag-output', style={'margin-top': '20px'}),
+                                    dcc.RangeSlider(
                                     id='my-range-slider',
                                     min=2011,
                                     max=2019,
@@ -69,10 +71,10 @@ app.layout = html.Div(className='content', children=[
                                     2015: {'label': '2015'},
                                     2017: {'label': '2017'},
                                     2019: {'label': '2019'}
-                                    },
+                                    }
                                 ),]),
-                             html.Div(id='theme', style={'fontSize': '20px'},
-                                    children="Couleur des disques"
+                             html.Div(id='theme', style={'fontSize': '20px', 'margin-top': '15px'},
+                                    children=["Couleur des disques"]
                                  ),
                              html.Div(
                                  dcc.RadioItems(
@@ -83,7 +85,7 @@ app.layout = html.Div(className='content', children=[
                                     value='cause',
                                     labelStyle={'display': 'block'}
                                 )),
-                                    html.Div(style={'fontSize': '20px'},
+                                    html.Div(style={'fontSize': '20px', 'margin-top': '15px'},
                                     children="Taille des disques"
                                  ),
                              html.Div(
