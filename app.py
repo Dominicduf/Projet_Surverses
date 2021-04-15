@@ -44,6 +44,19 @@ app.layout = html.Div(className='content', children=[
         html.H1('Déversement des eaux non-traités dans les cours d\'eau du Québec'),
         html.H2('Texte d\'introduction')
     ]),
+    html.Div(className='viz-container', children=[
+    dcc.Graph(
+        id='map',
+        className='graph',
+        figure=viz.map(dataframe_merged),
+        config=dict(
+            scrollZoom=True,
+            showTips=False,
+            showAxisDragHandles=False,
+            doubleClick=False,
+            displayModeBar=False
+        )
+    )]),
     html.Div(
             className='panel-div',
             style={
@@ -55,10 +68,8 @@ app.layout = html.Div(className='content', children=[
                     'border': '1px solid black',
                     'padding': '10px'},
                          children=[
-                             html.Div(id='marker-title', style={
-                                 'fontSize': '24px'}, children="Manipulation de la carte"),
                              html.Div([
-                                    html.Div(id='slider-drag-output', style={'margin-top': '20px'}),
+                                    html.Div(id='slider-drag-output', style={'margin-top': '00px'}),
                                     dcc.RangeSlider(
                                     id='my-range-slider',
                                     min=2011,
@@ -73,8 +84,11 @@ app.layout = html.Div(className='content', children=[
                                     2019: {'label': '2019'}
                                     }
                                 ),]),
-                             html.Div(id='theme', style={'fontSize': '20px', 'margin-top': '15px'},
+                             html.Div(id='theme', style={'fontSize': '20px', 'margin-top': '0px', 'width':'49%', 'display': 'inline-block'},
                                     children=["Couleur des disques"]
+                                 ),
+                             html.Div(style={'fontSize': '20px', 'margin-top': '0px', 'width':'49%', 'display': 'inline-block'},
+                                    children="Taille des disques"
                                  ),
                              html.Div(
                                  dcc.RadioItems(
@@ -84,10 +98,7 @@ app.layout = html.Div(className='content', children=[
                                     ],
                                     value='cause',
                                     labelStyle={'display': 'block'}
-                                )),
-                                    html.Div(style={'fontSize': '20px', 'margin-top': '15px'},
-                                    children="Taille des disques"
-                                 ),
+                                ), style={'width':'49%', 'display': 'inline-block'}),
                              html.Div(
                                  dcc.RadioItems(
                                     options=[
@@ -96,21 +107,8 @@ app.layout = html.Div(className='content', children=[
                                     ],
                                     value='duree',
                                     labelStyle={'display': 'block'}
-                                )),
+                                ), style={'width':'49%', 'display': 'inline-block'}),
                                  ])]),
-    html.Div(className='viz-container', children=[
-        dcc.Graph(
-            id='map',
-            className='graph',
-            figure=viz.map(dataframe_merged),
-            config=dict(
-                scrollZoom=True,
-                showTips=False,
-                showAxisDragHandles=False,
-                doubleClick=False,
-                displayModeBar=False
-            )
-        )]),
     html.Div(className='viz-container2', children=[
         dcc.Graph(
             id='line-chart',

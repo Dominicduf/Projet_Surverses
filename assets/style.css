@@ -24,38 +24,34 @@ body {background-color: rgb(209, 222, 224);}
   }
   
 @media screen and (min-width: 800px) {
-.panel-div {
-    justify-content: start;
-    height: 725px;
-    width: 300px;
-}
-
 .viz-container {
     justify-content: start;
     position: absolute;
-    left: 400px;
-    top: 70px
+    left: 150px;
+    top: 130px
 }
 
 .viz-container2 {
     justify-content: start;
     position: absolute;
     left: 0px;
-    top: 700px;
-    width: 800px
+    top: 900px;
+    width: 700px;
 }
 .viz-container3 {
     justify-content: start;
     position: absolute;
-    left: 800px;
-    top: 700px;
-    width: 600px
+    left: 700px;
+    top: 900px;
+    width: 600px;
 }
 
 #panel {
     background-color: white;
     position: absolute;
-    left: 15px;
-    width: 350px
+    left: 230px;
+    width: 820px;
+    top: 775px;
 }
+
 }

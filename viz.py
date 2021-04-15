@@ -27,6 +27,12 @@ def map(df):
 
 def line_chart(df):
     fig = px.line(df, x='Année', y='Durée de débordement (minutes)', color='Contexte du débordement')
+    fig.update_layout(legend=dict(
+        orientation="h",
+        yanchor="top",
+        xanchor="left",
+        y=-0.15
+    ))
     fig.layout.paper_bgcolor ="rgb(209, 222, 224)"
     return fig
 
