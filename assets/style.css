@@ -1,6 +1,28 @@
 
 body {background-color: rgb(209, 222, 224);}
 
+.rc-slider-track {
+    background-color: cornflowerblue;
+  }
+  
+  .rc-slider-dot-active {  
+    border-color: darkblue;
+    border: solid 2px darkblue;
+  }
+  
+  .rc-slider-handle {
+    background-color: darkblue;
+    border-color: darkblue;
+  }
+  
+  .rc-slider-handle:hover {
+    border-color: darkblue;
+  }
+  
+  .rc-slider-handle-active:active {
+    border-color: darkblue;
+  }
+  
 @media screen and (min-width: 800px) {
 .panel-div {
     justify-content: start;
