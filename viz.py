@@ -27,3 +27,9 @@ def map(df):
 def line_chart(df):
     fig = px.line(df, x='Année', y='Durée de débordement (minutes)', color='Contexte du débordement')
     return fig
+
+def bar_chart(df):
+    df_sorted = df.sort_values(by=['Durée de débordement (minutes)'])
+    fig = px.bar(df_sorted, x='Nom de la station d\'épuration', y='Durée de débordement (minutes)')
+    fig.update_xaxes(visible=False)
+    return fig

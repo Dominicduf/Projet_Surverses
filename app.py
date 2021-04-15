@@ -72,7 +72,7 @@ app.layout = html.Div(className='content', children=[
                                     },
                                 ),]),
                              html.Div(id='theme', style={'fontSize': '20px'},
-                                    children="Couleur des points"
+                                    children="Couleur des disques"
                                  ),
                              html.Div(
                                  dcc.RadioItems(
@@ -84,7 +84,7 @@ app.layout = html.Div(className='content', children=[
                                     labelStyle={'display': 'block'}
                                 )),
                                     html.Div(style={'fontSize': '20px'},
-                                    children="Taille des points"
+                                    children="Taille des disques"
                                  ),
                              html.Div(
                                  dcc.RadioItems(
@@ -116,6 +116,20 @@ app.layout = html.Div(className='content', children=[
             figure=viz.line_chart(dataframe_année),
             config=dict(
                 scrollZoom=False,
+                showTips=False,
+                showAxisDragHandles=False,
+                doubleClick=False,
+                displayModeBar=False
+            )
+        )
+    ]),
+    html.Div(className='viz-container3', children=[
+        dcc.Graph(
+            id='bar-chart',
+            className='graph',
+            figure=viz.bar_chart(dataframe_merged),
+            config=dict(
+                scrollZoom=True,
                 showTips=False,
                 showAxisDragHandles=False,
                 doubleClick=False,
