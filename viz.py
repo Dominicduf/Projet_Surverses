@@ -9,18 +9,8 @@ import plotly.express as px
 
 
 def map(df):
-    '''
-        Initializes the Graph Object figure used to display the bar chart.
-        Sets the template to be used to "simple_white" as a base with
-        our custom template on top. Sets the title to 'Lines per act'
-
-        Returns:
-            fig: The figure which will display the bar chart
-    '''
-    # TODO : Update the template to include our new theme and set the title
-
     fig = px.scatter_mapbox(df, lat='Latitude de l\'émissaire', lon='Longitude de l\'émissaire', size='Durée de débordement (minutes)',
-                   size_max=15, zoom=2.6, mapbox_style='open-street-map', center=dict(lat=53 , lon =-70))
+                   size_max=15, zoom=3.75, mapbox_style='open-street-map', center=dict(lat=53 , lon =-70))
     fig.update_layout(height=725, width=1000)
     fig.layout.paper_bgcolor ="rgb(209, 222, 224)"
     return fig
@@ -38,7 +28,7 @@ def line_chart(df):
 
 def bar_chart(df):
     df_sorted = df.sort_values(by=['Durée de débordement (minutes)'])
-    fig = px.bar(df_sorted, x='Nom de la station d\'épuration', y='Durée de débordement (minutes)')
+    fig = px.bar(df_sorted, x='Nom de la station d\'épuration', y='Durée de débordement (minutes)', title="Classement des pires stations")
     fig.update_xaxes(visible=False)
     fig.layout.paper_bgcolor ="rgb(209, 222, 224)"
     return fig

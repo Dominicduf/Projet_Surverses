@@ -36,6 +36,7 @@ dataframe_OS = pd.read_csv(os_path)
 dataframe_STEP = pd.read_csv(step_path)
 
 dataframe_STEP = preprocess.correction_lat_long(dataframe_STEP)
+dataframe_STEP = preprocess.correction_age_station(dataframe_STEP)
 dataframe_merged = preprocess.valeur_total(dataframe_OS, dataframe_STEP)
 dataframe_année = preprocess.valeur_année(dataframe_OS)
 
@@ -92,6 +93,7 @@ app.layout = html.Div(className='content', children=[
                                  ),
                              html.Div(
                                  dcc.RadioItems(
+                                    id="Couleur",
                                     options=[
                                         {'label': 'Cause principale de déversement', 'value': 'cause'},
                                         {'label': 'Âge des stations', 'value': 'age'},
@@ -101,6 +103,7 @@ app.layout = html.Div(className='content', children=[
                                 ), style={'width':'49%', 'display': 'inline-block'}),
                              html.Div(
                                  dcc.RadioItems(
+                                    id="Taille",
                                     options=[
                                         {'label': 'Durée de déversement', 'value': 'duree'},
                                         {'label': 'Fréquence de déversements', 'value': 'freq'},
@@ -138,3 +141,22 @@ app.layout = html.Div(className='content', children=[
         )
     ])
 ])
+
+
+@app.callback(
+    Output("map", "figure"),
+    Input('my-range-slider', 'value'),
+    Input('Couleur', 'value'),
+    Input("Taille", "value"))
+def update_map(range, Couleur, Taille):
+
+    # Pour taille, duree ou freq
+    if Couleur=="age":
+        colorval = "Age"
+
+    fig = px.scatter_mapbox(df, lat='Latitude de l\'émissaire', lon='Longitude de l\'émissaire', color=colorval,
+                   size_max=15, zoom=3.75, mapbox_style='open-street-map', center=dict(lat=53 , lon =-70))
+    fig.update_layout(height=725, width=1000)
+    fig.layout.paper_bgcolor ="rgb(209, 222, 224)"
+
+    return fig

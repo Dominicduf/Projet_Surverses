@@ -22,9 +22,13 @@ def correction_lat_long(my_df_STEP):
     my_df_STEP['Longitude de l\'émissaire']=pd.DataFrame(long).astype(float)
     return my_df_STEP
 
+def correction_age_station(my_df_STEP):
+    my_df_STEP["Age"] = 2021 - my_df_STEP["Date de mise en service"].str[0:4].astype("int64")
+    return my_df_STEP
+
 def valeur_total(my_df_OS, my_df_STEP):
     my_df_OS_group=my_df_OS.groupby(['Nom de la station d\'épuration ']).agg({'Durée de débordement (minutes)': 'sum'}).reset_index()
-    my_df_STEP = my_df_STEP[['Nom de la station d\'épuration','Latitude de l\'émissaire','Longitude de l\'émissaire']]
+    my_df_STEP = my_df_STEP[['Nom de la station d\'épuration','Latitude de l\'émissaire','Longitude de l\'émissaire', "Age"]]
 
     df_sum = my_df_OS_group.merge(my_df_STEP, right_on='Nom de la station d\'épuration', left_on= 'Nom de la station d\'épuration ')
     return df_sum
