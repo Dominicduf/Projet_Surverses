@@ -4,6 +4,7 @@
 import pandas as pd
 import numpy as np
 
+# Correction de la lattitude et de la longitude dans le fichier
 def correction_lat_long(my_df_STEP):
     my_df_STEP['Latitude de l\'émissaire']=my_df_STEP['Latitude de l\'émissaire'].str.replace(',' , '')
     my_df_STEP['Longitude de l\'émissaire']=my_df_STEP['Longitude de l\'émissaire'].str.replace(',' , '')
@@ -22,18 +23,49 @@ def correction_lat_long(my_df_STEP):
     my_df_STEP['Longitude de l\'émissaire']=pd.DataFrame(long).astype(float)
     return my_df_STEP
 
-def valeur_total(my_df_OS, my_df_STEP):
-    my_df_OS_group=my_df_OS.groupby(['Nom de la station d\'épuration ']).agg({'Durée de débordement (minutes)': 'sum'}).reset_index()
-    my_df_STEP = my_df_STEP[['Nom de la station d\'épuration','Latitude de l\'émissaire','Longitude de l\'émissaire']]
-
-    df_sum = my_df_OS_group.merge(my_df_STEP, right_on='Nom de la station d\'épuration', left_on= 'Nom de la station d\'épuration ')
-    return df_sum
-
-
-def valeur_année(df):
-    df = df[['Nom de la station d\'épuration ','Durée de débordement (minutes)','Numéro de l\'ouvrage de surverse','Contexte du débordement', 'Date de début du débordement']]
+# Filtrer les données pour le slider
+def data_filter(df,min,max):
     df['Date de début du débordement'] = pd.to_datetime(df['Date de début du débordement'])
     df['Année'] = df['Date de début du débordement'].dt.year
-    df_année = df.groupby(['Année','Contexte du débordement']).agg({'Durée de débordement (minutes)': 'sum'}).reset_index()
-    df_année = df_année.sort_values(by=['Contexte du débordement','Année'])
-    return df_année
+    df_filtered = df[(df['Année'] >= min) & (df['Année'] <= max)]
+    return df_filtered
+
+# Données pour le line chart
+def data_linechart(df):
+    df = df[['Nom de la station d\'épuration ','Durée de débordement (minutes)','Numéro de l\'ouvrage de surverse','Contexte du débordement', 'Date de début du débordement','Année']]
+    df_linechart = df.groupby(['Année','Contexte du débordement']).agg({'Durée de débordement (minutes)': 'sum', 'Nom de la station d\'épuration ':'count'}).reset_index()
+    df_linechart.rename(columns = {'Nom de la station d\'épuration ':'Fréquence'}, inplace = True)
+    df_linechart = df_linechart.sort_values(by=['Contexte du débordement','Année'])
+    return df_linechart
+
+# Obtenir l'âge de la station
+def age_station(my_df):
+    my_df['Year'] = pd.to_datetime(my_df['Date de mise en service']).dt.year
+    my_df['Âge'] = 2021 - my_df['Year']
+    return my_df
+
+# Obtenir le contexte de débordement ayant la plus longue durée de débordement par station
+def contexte_max(my_df):
+    my_df=my_df.groupby(['Nom de la station d\'épuration ','Numéro de la station d\'épuration ','Contexte du débordement']).agg({'Durée de débordement (minutes)': 'sum'}).reset_index()
+    my_df.rename(columns = {'Contexte du débordement':'Contexte du débordement max'}, inplace = True)
+    my_df=my_df.sort_values(by='Durée de débordement (minutes)', ascending=False)
+    my_df = my_df.drop_duplicates(subset=['Nom de la station d\'épuration '], keep='first')
+    my_df = my_df.drop(['Durée de débordement (minutes)'], axis = 1)
+    return my_df
+
+# Données pour le bar chart et la carte
+def data_bar_map(my_df_OS, my_df_STEP):
+    my_df_OS_group=my_df_OS.groupby(['Nom de la station d\'épuration ','Numéro de la station d\'épuration ']).agg({'Durée de débordement (minutes)': 'sum','Nom de la station d\'épuration ':'count'})
+    my_df_OS_group.rename(columns = {'Nom de la station d\'épuration ':'Fréquence'}, inplace = True)
+    my_df_OS_group= my_df_OS_group.reset_index()
+
+    my_df_STEP = age_station(my_df_STEP)
+    my_df_contexte_max = contexte_max(my_df_OS)
+    my_df_STEP = my_df_STEP.merge(my_df_contexte_max, right_on=['Nom de la station d\'épuration ','Numéro de la station d\'épuration '], 
+    left_on= ['Nom de la station d\'épuration','Numéro de la station d\'épuration'])
+
+    df_sum = my_df_OS_group.merge(my_df_STEP, right_on=['Nom de la station d\'épuration','Numéro de la station d\'épuration'], 
+    left_on= ['Nom de la station d\'épuration ','Numéro de la station d\'épuration '])
+    df_sum = df_sum.drop(["Nom de la station d'épuration _y", "Numéro de la station d'épuration _y"], axis = 1)
+    df_sum.rename(columns = {"Nom de la station d'épuration _x":'Nom de la station d\'épuration ',"Numéro de la station d'épuration _x":"Numéro de la station d'épuration "}, inplace = True)
+    return df_sum

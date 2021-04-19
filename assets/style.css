@@ -1,0 +1,57 @@
+
+body {background-color: rgb(209, 222, 224);}
+
+.rc-slider-track {
+    background-color: cornflowerblue;
+  }
+  
+  .rc-slider-dot-active {  
+    border-color: darkblue;
+    border: solid 2px darkblue;
+  }
+  
+  .rc-slider-handle {
+    background-color: darkblue;
+    border-color: darkblue;
+  }
+  
+  .rc-slider-handle:hover {
+    border-color: darkblue;
+  }
+  
+  .rc-slider-handle-active:active {
+    border-color: darkblue;
+  }
+  
+@media screen and (min-width: 800px) {
+.viz-container {
+    justify-content: start;
+    position: absolute;
+    left: 150px;
+    top: 130px
+}
+
+.viz-container2 {
+    justify-content: start;
+    position: absolute;
+    left: 0px;
+    top: 900px;
+    width: 700px;
+}
+.viz-container3 {
+    justify-content: start;
+    position: absolute;
+    left: 700px;
+    top: 900px;
+    width: 600px;
+}
+
+#panel {
+    background-color: white;
+    position: absolute;
+    left: 230px;
+    width: 820px;
+    top: 775px;
+}
+
+}
