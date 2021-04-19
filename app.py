@@ -27,6 +27,7 @@ import os
 
 
 app = dash.Dash(__name__)
+server = app.server
 app.title = 'Surverses'
 
 os_path = os.path.abspath("D:/Python Projects/INF8808/Projet surverse/OS_clean.csv")
@@ -131,9 +132,11 @@ app.layout = html.Div(className='content', children=[
 @app.callback(
     [Output('line-chart', 'figure'),Output('bar-chart', 'figure'),
     Output('map', 'figure')],
-    [Input('pts-size', 'value'),Input('pts-color', 'value'),Input('my-range-slider', 'value')]
+    [Input('pts-size', 'value'),Input('pts-color', 'value'),Input('my-range-slider', 'value')
+    ,Input('map','clickData')]
     )
-def update_graph(pts_size,pts_color,slider):
+def update_graph(pts_size,pts_color,slider,clickdata):
+    print(clickdata)
     dataframe_OS = preprocess.data_filter(dataframe_OS_init,slider[0],slider[1])
     dataframe_linechart = preprocess.data_linechart(dataframe_OS)
     dataframe_barmap = preprocess.data_bar_map(dataframe_OS, dataframe_STEP)
@@ -143,3 +146,6 @@ def update_graph(pts_size,pts_color,slider):
     figure_map=viz.map(dataframe_barmap, pts_size,pts_color)
 
     return [figure_line, figure_bar, figure_map]
+
+if __name__ == '__main__':
+    app.run_server(debug=True)
