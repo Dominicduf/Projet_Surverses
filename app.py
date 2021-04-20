@@ -27,7 +27,7 @@ import os
 
 
 app = dash.Dash(__name__)
-#server = app.server
+server = app.server
 app.title = 'Surverses'
 
 os_path = os.path.abspath("OS_clean.csv")
@@ -155,5 +155,5 @@ def update_graph(pts_size,pts_color,slider,clickdata):
 
     return [figure_line, figure_bar, figure_map]
 
-#if __name__ == '__main__':
- #   app.run_server(debug=True)
+if __name__ == '__main__':
+    app.run_server(debug=True)
