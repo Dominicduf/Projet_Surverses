@@ -30,8 +30,8 @@ app = dash.Dash(__name__)
 #server = app.server
 app.title = 'Surverses'
 
-os_path = os.path.abspath("D:/Python Projects/INF8808/Projet surverse/OS_clean.csv")
-step_path = os.path.abspath("D:/Python Projects/INF8808/Projet surverse/STEP.csv")
+os_path = os.path.abspath("OS_clean.csv")
+step_path = os.path.abspath("STEP.csv")
 
 dataframe_OS = pd.read_csv(os_path)
 dataframe_STEP = pd.read_csv(step_path)
@@ -54,7 +54,7 @@ app.layout = html.Div(className='content', children=[
             doubleClick=False,
             displayModeBar=False
         )
-    )]),
+    )], style={'width':'66%', 'display': 'inline-block'}),
     html.Div(
             className='panel-div',
             style={
@@ -105,7 +105,7 @@ app.layout = html.Div(className='content', children=[
                                     value='Durée de déversement',
                                     labelStyle={'display': 'block'}
                                 ), style={'width':'49%', 'display': 'inline-block'}),
-                                 ])]),
+                                 ]),
     html.Div(className='viz-container2', children=[
         dcc.Graph(id='line-chart',
                 config=dict(
@@ -115,7 +115,7 @@ app.layout = html.Div(className='content', children=[
                 doubleClick=False,
                 displayModeBar=False)
         )
-    ]),
+    ], style={'width':'33%', 'display': 'inline-block'}),
     html.Div(className='viz-container3', children=[
         dcc.Graph(
             id='bar-chart',
@@ -127,7 +127,8 @@ app.layout = html.Div(className='content', children=[
                 displayModeBar=False
             )
         )
-    ])
+    ], style={'width':'33%', 'display': 'inline-block'})
+    ]),
 ])
 @app.callback(
     [Output('line-chart', 'figure'),Output('bar-chart', 'figure'),

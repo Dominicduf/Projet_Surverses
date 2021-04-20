@@ -30,7 +30,7 @@ def map(df, mode_size, mode_color):
     elif (mode_size =='Fréquence de déversements') & (mode_color =='age'):
         fig = px.scatter_mapbox(df, lat='Latitude de l\'émissaire', lon='Longitude de l\'émissaire', size='Fréquence', color ='Âge',
                    size_max=15, zoom=2.6, mapbox_style='open-street-map', center=dict(lat=53 , lon =-70))  
-    fig.update_layout(height=725, width=1000)
+    fig.update_layout(height=800, width=1100)
     fig.layout.paper_bgcolor ="rgb(209, 222, 224)"
     return fig
 
