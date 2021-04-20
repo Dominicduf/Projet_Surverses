@@ -137,13 +137,20 @@ app.layout = html.Div(className='content', children=[
     ,Input('map','clickData')]
     )
 def update_graph(pts_size,pts_color,slider,clickdata):
-    print(clickdata)
+
+    name = ""
+    if clickdata==None:
+        None
+    else:
+        #print(clickdata["points"])
+        name = clickdata["points"][0]["hovertext"].replace("Station", "station")
+
     dataframe_OS = preprocess.data_filter(dataframe_OS_init,slider[0],slider[1])
     dataframe_linechart = preprocess.data_linechart(dataframe_OS)
     dataframe_barmap = preprocess.data_bar_map(dataframe_OS, dataframe_STEP)
 
-    figure_line=viz.line_chart(dataframe_linechart, pts_size)
-    figure_bar=viz.bar_chart(dataframe_barmap, pts_size)
+    figure_line=viz.line_chart(dataframe_linechart, pts_size, name)
+    figure_bar=viz.bar_chart(dataframe_barmap, pts_size, name)
     figure_map=viz.map(dataframe_barmap, pts_size,pts_color)
 
     return [figure_line, figure_bar, figure_map]

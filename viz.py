@@ -34,8 +34,14 @@ def map(df, mode_size, mode_color):
     fig.layout.paper_bgcolor ="rgb(209, 222, 224)"
     return fig
 
-def line_chart(df, mode):
-    titre = "Comparaison des causes de déversement en fonction de "
+def line_chart(df, mode, name):
+    
+    titre = ""
+    if name == "":
+        titre = "Comparaison des causes de déversement en fonction de "
+    else:
+        titre = "Comparaison des causes de déversement de la " + name + " en fonction de "
+
     if mode =='Durée de déversement':
         titre += "la durée des déversements"
         fig = px.line(df, x='Année', y='Durée de débordement (minutes)', color='Contexte du débordement', title=titre)
@@ -51,8 +57,14 @@ def line_chart(df, mode):
     fig.layout.paper_bgcolor ="rgb(209, 222, 224)"
     return fig
 
-def bar_chart(df,mode):
-    titre = "Classement des pires stations selon "
+def bar_chart(df, mode, name):
+
+    titre = ""
+    if name == "":
+        titre = "Classement des pires stations selon "
+    else:
+        titre = "La " + name + " est la Xième pire dans un classement selon "
+
     if mode =='Durée de déversement':
         titre += "la durée des déversements"
         df_sorted = df.sort_values(by=['Durée de débordement (minutes)'])
