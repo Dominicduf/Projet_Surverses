@@ -8,6 +8,7 @@ Brotli==1.0.7
 certifi==2020.6.20
 chardet==3.0.4
 click==7.1.2
+test = 1.2.3
 colorama==0.4.3
 cycler==0.10.0
 dahuffman==0.2
