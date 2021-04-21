@@ -46,9 +46,9 @@ def line_chart(df, mode, name):
         titre = "Évolution des causes de déversement par année de la<br>" + name
 
     if mode =='Durée de déversement':
-        fig = px.line(df, x='Année', y='Durée de débordement (minutes)', color='Contexte du débordement', title=titre, color_discrete_sequence=px.colors.qualitative.Alphabet)
+        fig = px.scatter(df, x='Année', y='Durée de débordement (minutes)', color='Contexte du débordement', title=titre, color_discrete_sequence=px.colors.qualitative.Alphabet)
     elif mode =='Fréquence de déversements':
-        fig = px.line(df, x='Année', y='Fréquence', color='Contexte du débordement', title=titre, color_discrete_sequence=px.colors.qualitative.Alphabet)
+        fig = px.scatter(df, x='Année', y='Fréquence', color='Contexte du débordement', title=titre, color_discrete_sequence=px.colors.qualitative.Alphabet)
     fig.update_layout(legend=dict(
         orientation="h",
         yanchor="top",
