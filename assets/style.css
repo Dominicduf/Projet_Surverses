@@ -27,31 +27,31 @@ body {background-color: rgb(209, 222, 224);}
 .viz-container {
     justify-content: start;
     position: absolute;
-    left: 150px;
-    top: 130px
+    left: 0px;
+    top: 130px;
+    height: 1700px;
+    width: 1700px;
 }
 
 .viz-container2 {
     justify-content: start;
     position: absolute;
-    left: 0px;
-    top: 900px;
-    width: 700px;
+    left: 1125px;
+    top: 130px;
 }
 .viz-container3 {
     justify-content: start;
     position: absolute;
-    left: 700px;
-    top: 900px;
-    width: 600px;
+    left: 1125px;
+    top: 600px;
 }
 
 #panel {
     background-color: white;
     position: absolute;
-    left: 230px;
-    width: 820px;
-    top: 775px;
+    left: 80px;
+    width: 1020px;
+    top: 850px;
 }
 
 }

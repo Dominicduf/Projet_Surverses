@@ -30,8 +30,11 @@ app = dash.Dash(__name__)
 #server = app.server
 app.title = 'Surverses'
 
-os_path = os.path.abspath("D:/Python Projects/INF8808/Projet surverse/OS_clean.csv")
-step_path = os.path.abspath("D:/Python Projects/INF8808/Projet surverse/STEP.csv")
+os_path = os.path.abspath("D:/Python Projects/INF8808/Projet_Surverses/OS_clean.csv")
+step_path = os.path.abspath("D:/Python Projects/INF8808/Projet_Surverses/STEP.csv")
+
+#os_path = os.path.abspath("OS_clean.csv")
+#step_path = os.path.abspath("STEP.csv")
 
 dataframe_OS = pd.read_csv(os_path)
 dataframe_STEP = pd.read_csv(step_path)
@@ -42,7 +45,7 @@ dataframe_OS_init = preprocess.data_filter(dataframe_OS,2011,2019)
 app.layout = html.Div(className='content', children=[
     html.Header(children=[
         html.H1('Déversement des eaux non-traités dans les cours d\'eau du Québec'),
-        html.H2('Texte d\'introduction')
+        html.H2('**Texte d\'introduction**')
     ]),
     html.Div(className='viz-container', children=[
     dcc.Graph(
@@ -54,7 +57,7 @@ app.layout = html.Div(className='content', children=[
             doubleClick=False,
             displayModeBar=False
         )
-    )]),
+    )], style={'width':'66%', 'display': 'inline-block'}),
     html.Div(
             className='panel-div',
             style={
@@ -105,7 +108,7 @@ app.layout = html.Div(className='content', children=[
                                     value='Durée de déversement',
                                     labelStyle={'display': 'block'}
                                 ), style={'width':'49%', 'display': 'inline-block'}),
-                                 ])]),
+                                 ]),
     html.Div(className='viz-container2', children=[
         dcc.Graph(id='line-chart',
                 config=dict(
@@ -115,7 +118,7 @@ app.layout = html.Div(className='content', children=[
                 doubleClick=False,
                 displayModeBar=False)
         )
-    ]),
+    ], style={'width':'33%', 'display': 'inline-block'}),
     html.Div(className='viz-container3', children=[
         dcc.Graph(
             id='bar-chart',
@@ -127,8 +130,10 @@ app.layout = html.Div(className='content', children=[
                 displayModeBar=False
             )
         )
-    ])
+    ], style={'width':'33%', 'display': 'inline-block'})
+    ]),
 ])
+
 @app.callback(
     [Output('line-chart', 'figure'),Output('bar-chart', 'figure'),
     Output('map', 'figure')],
@@ -136,16 +141,25 @@ app.layout = html.Div(className='content', children=[
     ,Input('map','clickData')]
     )
 def update_graph(pts_size,pts_color,slider,clickdata):
-    print(clickdata)
+    
     dataframe_OS = preprocess.data_filter(dataframe_OS_init,slider[0],slider[1])
-    dataframe_linechart = preprocess.data_linechart(dataframe_OS)
     dataframe_barmap = preprocess.data_bar_map(dataframe_OS, dataframe_STEP)
 
-    figure_line=viz.line_chart(dataframe_linechart, pts_size)
-    figure_bar=viz.bar_chart(dataframe_barmap, pts_size)
+    name = ""
+    classement = 0
+    if clickdata==None:
+        dataframe_linechart = preprocess.data_linechart(dataframe_OS,None)
+    else:
+        name = clickdata["points"][0]["hovertext"]
+        classement = preprocess.bar_ranking(dataframe_barmap, pts_size, name)
+        name = name.replace("Station", "station")
+        dataframe_linechart = preprocess.data_linechart(dataframe_OS,clickdata["points"][0]["hovertext"])
+
+    figure_line=viz.line_chart(dataframe_linechart, pts_size, name)
+    figure_bar=viz.bar_chart(dataframe_barmap, pts_size, name, classement)
     figure_map=viz.map(dataframe_barmap, pts_size,pts_color)
 
     return [figure_line, figure_bar, figure_map]
 
 #if __name__ == '__main__':
- #   app.run_server(debug=True)
+   # app.run_server(debug=True)

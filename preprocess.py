@@ -31,8 +31,13 @@ def data_filter(df,min,max):
     return df_filtered
 
 # Données pour le line chart
-def data_linechart(df):
+def data_linechart(df,clickdata):
     df = df[['Nom de la station d\'épuration ','Durée de débordement (minutes)','Numéro de l\'ouvrage de surverse','Contexte du débordement', 'Date de début du débordement','Année']]
+    if clickdata == None:
+        None
+    else:
+        df=df[df['Nom de la station d\'épuration ']==clickdata]
+        
     df_linechart = df.groupby(['Année','Contexte du débordement']).agg({'Durée de débordement (minutes)': 'sum', 'Nom de la station d\'épuration ':'count'}).reset_index()
     df_linechart.rename(columns = {'Nom de la station d\'épuration ':'Fréquence'}, inplace = True)
     df_linechart = df_linechart.sort_values(by=['Contexte du débordement','Année'])
@@ -68,4 +73,25 @@ def data_bar_map(my_df_OS, my_df_STEP):
     left_on= ['Nom de la station d\'épuration ','Numéro de la station d\'épuration '])
     df_sum = df_sum.drop(["Nom de la station d'épuration _y", "Numéro de la station d'épuration _y"], axis = 1)
     df_sum.rename(columns = {"Nom de la station d'épuration _x":'Nom de la station d\'épuration ',"Numéro de la station d'épuration _x":"Numéro de la station d'épuration "}, inplace = True)
+    df_sum = df_sum.sort_values(by=['Contexte du débordement max',])
     return df_sum
+
+# Obtenir la position dans le ranking des pires stations
+def bar_ranking(df, sort, name):
+    col =""
+    if sort=="Durée de déversement":
+        col = "Durée de débordement (minutes)"
+    elif sort == "Fréquence de déversements":
+        col = "Fréquence"
+
+    #df_sorted = df.sort_values(by=[col]).reset_index()
+    #print(df_sorted.head(10))
+    #print(df[df["Nom de la station d'épuration"]==name].index.values[0])
+    df["Ranking"] = df[col].rank(method='min', ascending=False)
+    
+    index = df[df["Nom de la station d'épuration"]==name].index.values[0]
+    nb = df.loc[index, "Ranking"]
+
+    return int(nb)
+
+
