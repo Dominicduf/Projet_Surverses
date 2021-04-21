@@ -27,14 +27,14 @@ import os
 
 
 app = dash.Dash(__name__)
-#server = app.server
+server = app.server
 app.title = 'Surverses'
 
-os_path = os.path.abspath("D:/Python Projects/INF8808/Projet_Surverses/OS_clean.csv")
-step_path = os.path.abspath("D:/Python Projects/INF8808/Projet_Surverses/STEP.csv")
+#os_path = os.path.abspath("D:/Python Projects/INF8808/Projet_Surverses/OS_clean.csv")
+#step_path = os.path.abspath("D:/Python Projects/INF8808/Projet_Surverses/STEP.csv")
 
-#os_path = os.path.abspath("OS_clean.csv")
-#step_path = os.path.abspath("STEP.csv")
+os_path = os.path.abspath("OS_clean.csv")
+step_path = os.path.abspath("STEP.csv")
 
 dataframe_OS = pd.read_csv(os_path)
 dataframe_STEP = pd.read_csv(step_path)
@@ -160,5 +160,5 @@ def update_graph(pts_size,pts_color,slider,clickdata):
     figure_map=viz.map(dataframe_barmap, pts_size,pts_color)
     return [figure_line, figure_bar, figure_map]
 
-#if __name__ == '__main__':
-   # app.run_server(debug=True)
+if __name__ == '__main__':
+    app.run_server(debug=True)
