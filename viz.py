@@ -33,6 +33,7 @@ def map(df, mode_size, mode_color):
                    size_max=25, zoom=3.75, mapbox_style='open-street-map', center=dict(lat=53 , lon =-74), custom_data=df)  
     fig.update_layout(height=800, width=1125,legend=dict(x=0,y=1,traceorder='normal', bgcolor='rgba(0,0,0,0)'), uirevision=True, margin=dict(r=0,t=0,pad=0))
     fig.update_traces(marker_sizemin=5, hovertemplate=hover_template.map_hover_template(),overwrite=True)
+
     fig.layout.paper_bgcolor ="rgb(209, 222, 224)"
     return fig
 
