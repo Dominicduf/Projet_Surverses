@@ -45,7 +45,7 @@ dataframe_OS_init = preprocess.data_filter(dataframe_OS,2011,2019)
 app.layout = html.Div(className='content', children=[
     html.Header(children=[
         html.H1('Déversement des eaux non-traités dans les cours d\'eau du Québec'),
-        html.H2('Navigez la carte pour sélectionner une station d\'épuration d\'intérêt. Les graphiques à droite vont se mettre à jour pour vous donner de l\'informations contextuelle.')
+        html.H2('Navigez la carte pour sélectionner une station d\'épuration d\'intérêt. Les graphiques à droite vont se mettre à jour pour vous donner des informations contextuelles.')
     ]),
     html.Div(className='viz-container', children=[
     dcc.Graph(
