@@ -36,13 +36,13 @@ body {background-color: rgb(209, 222, 224);}
 .viz-container2 {
     justify-content: start;
     position: absolute;
-    left: 1125px;
+    left: 1130px;
     top: 130px;
 }
 .viz-container3 {
     justify-content: start;
     position: absolute;
-    left: 1125px;
+    left: 1130px;
     top: 600px;
 }
 
@@ -50,7 +50,7 @@ body {background-color: rgb(209, 222, 224);}
     background-color: white;
     position: absolute;
     left: 80px;
-    width: 1020px;
+    width: 1023px;
     top: 850px;
 }
 
