@@ -68,4 +68,5 @@ def data_bar_map(my_df_OS, my_df_STEP):
     left_on= ['Nom de la station d\'épuration ','Numéro de la station d\'épuration '])
     df_sum = df_sum.drop(["Nom de la station d'épuration _y", "Numéro de la station d'épuration _y"], axis = 1)
     df_sum.rename(columns = {"Nom de la station d'épuration _x":'Nom de la station d\'épuration ',"Numéro de la station d'épuration _x":"Numéro de la station d'épuration "}, inplace = True)
+    df_sum = df_sum.sort_values(by=['Contexte du débordement max',])
     return df_sum
