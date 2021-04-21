@@ -28,7 +28,7 @@ body {background-color: rgb(209, 222, 224);}
     justify-content: start;
     position: absolute;
     left: 0px;
-    top: 130px;
+    top: 150px;
     height: 1700px;
     width: 1700px;
 }
@@ -37,13 +37,13 @@ body {background-color: rgb(209, 222, 224);}
     justify-content: start;
     position: absolute;
     left: 1130px;
-    top: 130px;
+    top: 150px;
 }
 .viz-container3 {
     justify-content: start;
     position: absolute;
     left: 1130px;
-    top: 600px;
+    top: 620px;
 }
 
 #panel {
@@ -51,7 +51,7 @@ body {background-color: rgb(209, 222, 224);}
     position: absolute;
     left: 80px;
     width: 1023px;
-    top: 850px;
+    top: 870px;
 }
 
 }

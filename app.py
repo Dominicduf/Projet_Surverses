@@ -30,8 +30,13 @@ app = dash.Dash(__name__)
 server = app.server
 app.title = 'Surverses'
 
+<<<<<<< HEAD
 #os_path = os.path.abspath("D:/Python Projects/INF8808/Projet_Surverses/OS_clean.csv")
 #step_path = os.path.abspath("D:/Python Projects/INF8808/Projet_Surverses/STEP.csv")
+=======
+os_path = os.path.abspath("OS_clean.csv")
+step_path = os.path.abspath("STEP.csv")
+>>>>>>> f3529cbaa7c49f271b9e052b13698cef1b8f066a
 
 os_path = os.path.abspath("OS_clean.csv")
 step_path = os.path.abspath("STEP.csv")
@@ -45,7 +50,7 @@ dataframe_OS_init = preprocess.data_filter(dataframe_OS,2011,2019)
 app.layout = html.Div(className='content', children=[
     html.Header(children=[
         html.H1('Déversement des eaux non-traités dans les cours d\'eau du Québec'),
-        html.H2('Navigez la carte pour sélectionner une station d\'épuration d\'intérêt. Les graphiques à droite vont se mettre à jour pour vous donner de l\'informations contextuelle quant à elle')
+        html.H2('Navigez la carte pour sélectionner une station d\'épuration d\'intérêt. Les graphiques à droite vont se mettre à jour pour vous donner des informations contextuelles.')
     ]),
     html.Div(className='viz-container', children=[
     dcc.Graph(
