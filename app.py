@@ -30,16 +30,11 @@ app = dash.Dash(__name__)
 server = app.server
 app.title = 'Surverses'
 
-<<<<<<< HEAD
-#os_path = os.path.abspath("D:/Python Projects/INF8808/Projet_Surverses/OS_clean.csv")
-#step_path = os.path.abspath("D:/Python Projects/INF8808/Projet_Surverses/STEP.csv")
-=======
-os_path = os.path.abspath("OS_clean.csv")
-step_path = os.path.abspath("STEP.csv")
->>>>>>> f3529cbaa7c49f271b9e052b13698cef1b8f066a
+os_path = os.path.abspath("D:/Python Projects/INF8808/Projet_Surverses/OS_clean.csv")
+step_path = os.path.abspath("D:/Python Projects/INF8808/Projet_Surverses/STEP.csv")
 
-os_path = os.path.abspath("OS_clean.csv")
-step_path = os.path.abspath("STEP.csv")
+#os_path = os.path.abspath("OS_clean.csv")
+#step_path = os.path.abspath("STEP.csv")
 
 dataframe_OS = pd.read_csv(os_path)
 dataframe_STEP = pd.read_csv(step_path)
