@@ -39,7 +39,7 @@ def line_chart(df, mode, name):
     if name == "":
         titre = "Évolution des causes de déversement par année"
     else:
-        titre = "Évolution des causes de déversement par année de la <br>" + name
+        titre = "Évolution des causes de déversement par année de la<br>" + name
 
     if mode =='Durée de déversement':
         fig = px.line(df, x='Année', y='Durée de débordement (minutes)', color='Contexte du débordement', title=titre)
@@ -55,13 +55,13 @@ def line_chart(df, mode, name):
     fig.update_layout(showlegend=False,legend_title_side='top left')
     return fig
 
-def bar_chart(df, mode, name):
+def bar_chart(df, mode, name, nb):
 
     titre = ""
     if name == "":
-        titre = "Classement des pires stations selon "
+        titre = "Classement des pires stations"
     else:
-        titre = "La " + name + " est la Xième pire dans un classement selon"
+        titre = "La " + name + "<br>est la " + str(nb) + "ième pire dans le classement"
 
     if mode =='Durée de déversement':
         df_sorted = df.sort_values(by=['Durée de débordement (minutes)'])

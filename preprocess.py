@@ -70,3 +70,23 @@ def data_bar_map(my_df_OS, my_df_STEP):
     df_sum.rename(columns = {"Nom de la station d'épuration _x":'Nom de la station d\'épuration ',"Numéro de la station d'épuration _x":"Numéro de la station d'épuration "}, inplace = True)
     df_sum = df_sum.sort_values(by=['Contexte du débordement max',])
     return df_sum
+
+# Obtenir la position dans le ranking des pires stations
+def bar_ranking(df, sort, name):
+    col =""
+    if sort=="Durée de déversement":
+        col = "Durée de débordement (minutes)"
+    elif sort == "Fréquence de déversements":
+        col = "Fréquence"
+
+    #df_sorted = df.sort_values(by=[col]).reset_index()
+    #print(df_sorted.head(10))
+    #print(df[df["Nom de la station d'épuration"]==name].index.values[0])
+    df["Ranking"] = df[col].rank(method='min', ascending=False)
+    
+    index = df[df["Nom de la station d'épuration"]==name].index.values[0]
+    nb = df.loc[index, "Ranking"]
+
+    return int(nb)
+
+
