@@ -9,6 +9,16 @@ import plotly.express as px
 
 import hover_template
 
+
+dict_color = {
+    "Autre contexte" : px.colors.qualitative.Alphabet[0],
+    "Fonte des neiges" : px.colors.qualitative.Alphabet[1],
+    "Pluie" : px.colors.qualitative.Alphabet[2],
+    "Réalisation de travaux planifiés": px.colors.qualitative.Alphabet[3],
+    "Temps sec" : px.colors.qualitative.Alphabet[4],
+    "Urgence" : px.colors.qualitative.Alphabet[5]
+}
+
 def map(df, mode_size, mode_color):
     '''
         Initializes the Graph Object figure used to display the bar chart.
@@ -21,13 +31,13 @@ def map(df, mode_size, mode_color):
     # TODO : Update the template to include our new theme and set the title
     if (mode_size =='Durée de déversement') & (mode_color =='cause'):
         fig = px.scatter_mapbox(df, lat='Latitude de l\'émissaire', lon='Longitude de l\'émissaire', size='Durée de débordement (minutes)', color='Contexte du débordement max', hover_name="Nom de la station d'épuration",
-                   size_max=25, zoom=3.75, mapbox_style='open-street-map', center=dict(lat=53 , lon =-74), custom_data=df, color_discrete_sequence=px.colors.qualitative.Alphabet)
+                   size_max=25, zoom=3.75, mapbox_style='open-street-map', center=dict(lat=53 , lon =-74), custom_data=df, color_discrete_map=dict_color)
     elif (mode_size =='Durée de déversement') & (mode_color =='age'):
         fig = px.scatter_mapbox(df, lat='Latitude de l\'émissaire', lon='Longitude de l\'émissaire', size='Durée de débordement (minutes)', color='Âge', hover_name="Nom de la station d'épuration",
                    size_max=25, zoom=3.75, mapbox_style='open-street-map', center=dict(lat=53 , lon =-74), custom_data=df)
     elif (mode_size =='Fréquence de déversements') & (mode_color =='cause'):
         fig = px.scatter_mapbox(df, lat='Latitude de l\'émissaire', lon='Longitude de l\'émissaire', size='Fréquence', color ='Contexte du débordement max', hover_name="Nom de la station d'épuration",
-                   size_max=25, zoom=3.75, mapbox_style='open-street-map', center=dict(lat=53 , lon =-74), custom_data=df, color_discrete_sequence=px.colors.qualitative.Alphabet)
+                   size_max=25, zoom=3.75, mapbox_style='open-street-map', center=dict(lat=53 , lon =-74), custom_data=df, color_discrete_map=dict_color)
     elif (mode_size =='Fréquence de déversements') & (mode_color =='age'):
         fig = px.scatter_mapbox(df, lat='Latitude de l\'émissaire', lon='Longitude de l\'émissaire', size='Fréquence', color ='Âge', hover_name="Nom de la station d'épuration", hovertemplate=hover_template.map_hover_template(),
                    size_max=25, zoom=3.75, mapbox_style='open-street-map', center=dict(lat=53 , lon =-74), custom_data=df)  
@@ -46,9 +56,9 @@ def line_chart(df, mode, name):
         titre = "Évolution des causes de déversement par année de la<br>" + name
 
     if mode =='Durée de déversement':
-        fig = px.line(df, x='Année', y='Durée de débordement (minutes)', color='Contexte du débordement', title=titre, color_discrete_sequence=px.colors.qualitative.Alphabet)
+        fig = px.line(df, x='Année', y='Durée de débordement (minutes)', color='Contexte du débordement', title=titre, color_discrete_map=dict_color)
     elif mode =='Fréquence de déversements':
-        fig = px.line(df, x='Année', y='Fréquence', color='Contexte du débordement', title=titre, color_discrete_sequence=px.colors.qualitative.Alphabet)
+        fig = px.line(df, x='Année', y='Fréquence', color='Contexte du débordement', title=titre, color_discrete_map=dict_color)
     fig.update_layout(legend=dict(
         orientation="h",
         yanchor="top",
