@@ -31,16 +31,16 @@ def map(df, mode_size, mode_color):
     # TODO : Update the template to include our new theme and set the title
     if (mode_size =='Durée de déversement') & (mode_color =='cause'):
         fig = px.scatter_mapbox(df, lat='Latitude de l\'émissaire', lon='Longitude de l\'émissaire', size='Durée de débordement (minutes)', color='Contexte du débordement max', hover_name="Nom de la station d'épuration",
-                   size_max=25, zoom=4.75, mapbox_style='open-street-map', center=dict(lat=50 , lon =-70), custom_data=df, color_discrete_map=dict_color, opacity=0.4)
+                   size_max=25, zoom=4.75, mapbox_style='open-street-map', center=dict(lat=50 , lon =-70), custom_data=df, color_discrete_map=dict_color, opacity=0.5)
     elif (mode_size =='Durée de déversement') & (mode_color =='age'):
         fig = px.scatter_mapbox(df, lat='Latitude de l\'émissaire', lon='Longitude de l\'émissaire', size='Durée de débordement (minutes)', color='Âge', hover_name="Nom de la station d'épuration",
-                   size_max=25, zoom=4.75, mapbox_style='open-street-map', center=dict(lat=50 , lon =-70), custom_data=df, opacity=0.4)
+                   size_max=25, zoom=4.75, mapbox_style='open-street-map', center=dict(lat=50 , lon =-70), custom_data=df, opacity=0.5)
     elif (mode_size =='Fréquence de déversements') & (mode_color =='cause'):
         fig = px.scatter_mapbox(df, lat='Latitude de l\'émissaire', lon='Longitude de l\'émissaire', size='Fréquence', color ='Contexte du débordement max', hover_name="Nom de la station d'épuration",
-                   size_max=25, zoom=4.75, mapbox_style='open-street-map', center=dict(lat=50 , lon =-70), custom_data=df, color_discrete_map=dict_color, opacity=0.4)
+                   size_max=25, zoom=4.75, mapbox_style='open-street-map', center=dict(lat=50 , lon =-70), custom_data=df, color_discrete_map=dict_color, opacity=0.5)
     elif (mode_size =='Fréquence de déversements') & (mode_color =='age'):
         fig = px.scatter_mapbox(df, lat='Latitude de l\'émissaire', lon='Longitude de l\'émissaire', size='Fréquence', color ='Âge', hover_name="Nom de la station d'épuration",
-                   size_max=25, zoom=4.75, mapbox_style='open-street-map', center=dict(lat=50 , lon =-70), custom_data=df, opacity=0.4)  
+                   size_max=25, zoom=4.75, mapbox_style='open-street-map', center=dict(lat=50 , lon =-70), custom_data=df, opacity=0.5)  
     fig.update_layout(height=800, width=1125,legend=dict(x=0,y=1,traceorder='normal', bgcolor='rgba(0,0,0,0)'), uirevision=True, margin=dict(r=0,t=0,pad=0))
     fig.update_traces(marker_sizemin=5, hovertemplate=hover_template.map_hover_template(),overwrite=True)
     fig.layout.paper_bgcolor ="rgb(209, 222, 224)"
