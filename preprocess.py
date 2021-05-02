@@ -69,10 +69,7 @@ def bar_ranking(df, sort, name):
         col = "Durée de débordement (minutes)"
     elif sort == "Fréquence de déversements":
         col = "Fréquence"
-
-    #df_sorted = df.sort_values(by=[col]).reset_index()
-    #print(df_sorted.head(10))
-    #print(df[df["Nom de la station d'épuration"]==name].index.values[0])
+        
     df["Ranking"] = df[col].rank(method='min', ascending=False)
     
     index = df[df["Nom de la station d'épuration"]==name].index.values[0]
