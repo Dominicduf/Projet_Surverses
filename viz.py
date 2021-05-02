@@ -6,6 +6,7 @@
 import plotly.graph_objects as go
 import plotly.io as pio
 import plotly.express as px
+import numpy as np
 
 import hover_template
 
@@ -31,16 +32,16 @@ def map(df, mode_size, mode_color):
     # TODO : Update the template to include our new theme and set the title
     if (mode_size =='Durée de déversement') & (mode_color =='cause'):
         fig = px.scatter_mapbox(df, lat='Latitude de l\'émissaire', lon='Longitude de l\'émissaire', size='Durée de débordement (minutes)', color='Contexte du débordement max', hover_name="Nom de la station d'épuration",
-                   size_max=25, zoom=4.75, mapbox_style='open-street-map', center=dict(lat=50 , lon =-70), custom_data=df, color_discrete_map=dict_color, opacity=0.5)
+                   size_max=25, zoom=5.3, mapbox_style='open-street-map', center=dict(lat=48.5 , lon =-71), custom_data=df, color_discrete_map=dict_color, opacity=0.5)
     elif (mode_size =='Durée de déversement') & (mode_color =='age'):
         fig = px.scatter_mapbox(df, lat='Latitude de l\'émissaire', lon='Longitude de l\'émissaire', size='Durée de débordement (minutes)', color='Âge', hover_name="Nom de la station d'épuration",
-                   size_max=25, zoom=4.75, mapbox_style='open-street-map', center=dict(lat=50 , lon =-70), custom_data=df, opacity=0.5)
+                   size_max=25, zoom=5.3, mapbox_style='open-street-map', center=dict(lat=48.5 , lon =-71), custom_data=df, opacity=0.5)
     elif (mode_size =='Fréquence de déversements') & (mode_color =='cause'):
         fig = px.scatter_mapbox(df, lat='Latitude de l\'émissaire', lon='Longitude de l\'émissaire', size='Fréquence', color ='Contexte du débordement max', hover_name="Nom de la station d'épuration",
-                   size_max=25, zoom=4.75, mapbox_style='open-street-map', center=dict(lat=50 , lon =-70), custom_data=df, color_discrete_map=dict_color, opacity=0.5)
+                   size_max=25, zoom=5.3, mapbox_style='open-street-map', center=dict(lat=48.5 , lon =-71), custom_data=df, color_discrete_map=dict_color, opacity=0.5)
     elif (mode_size =='Fréquence de déversements') & (mode_color =='age'):
         fig = px.scatter_mapbox(df, lat='Latitude de l\'émissaire', lon='Longitude de l\'émissaire', size='Fréquence', color ='Âge', hover_name="Nom de la station d'épuration",
-                   size_max=25, zoom=4.75, mapbox_style='open-street-map', center=dict(lat=50 , lon =-70), custom_data=df, opacity=0.5)  
+                   size_max=25, zoom=5.3, mapbox_style='open-street-map', center=dict(lat=48.5 , lon =-71), custom_data=df, opacity=0.5)  
     fig.update_layout(height=800, width=1125,legend=dict(x=0,y=1,traceorder='normal', bgcolor='rgba(0,0,0,0)'), uirevision=True, margin=dict(r=0,t=0,pad=0))
     fig.update_traces(marker_sizemin=5, hovertemplate=hover_template.map_hover_template(),overwrite=True)
     fig.layout.paper_bgcolor ="rgb(209, 222, 224)"
@@ -52,7 +53,7 @@ def line_chart(df, mode, name):
     if name == "":
         titre = "Évolution des causes de déversement par année"
     else:
-        titre = "Évolution des causes de déversement par année de la<br>" + name
+        titre = "Évolution des causes de déversement par année de la<br><b>" + name +"</b>"
 
     if mode =='Durée de déversement':
         fig = px.scatter(df, x='Année', y='Durée de débordement (minutes)', color='Contexte du débordement', title=titre, color_discrete_sequence=px.colors.qualitative.Alphabet, color_discrete_map=dict_color)
@@ -73,14 +74,35 @@ def bar_chart(df, mode, name, nb):
     if name == "":
         titre = "Classement des pires stations"
     else:
-        titre = "La " + name + "<br>est la " + str(nb) + "ième pire dans le classement"
+        titre = "La <b>" + name +"</b>"+ "<br>est la " + str(nb) + "ième pire dans le classement"
 
     if mode =='Durée de déversement':
         df_sorted = df.sort_values(by=['Durée de débordement (minutes)'])
         fig = px.bar(df_sorted, x='Nom de la station d\'épuration ', y='Durée de débordement (minutes)', title=titre)
     elif mode =='Fréquence de déversements':
         df_sorted = df.sort_values(by=['Fréquence'])
-        fig = px.bar(df_sorted, x='Nom de la station d\'épuration ', y='Fréquence', title=titre) 
+        fig = px.bar(df_sorted, x='Nom de la station d\'épuration ', y='Fréquence', title=titre)
+
+    if name == "":
+       colors='lightslategray'
+       widths = 0.5
+    else:
+        station = fig['data'][0]['x'].astype(str)
+        station = np.char.upper(station)
+        index = np.where(station == name.upper())[0].item()
+        colors = ['lightslategray',] * len(station)
+        widths = [0.5,] * len(station)
+        colors[index] = 'crimson'
+        widths[index] = 2
+        y= fig['data'][0]['y'][index]
+        fig.add_annotation(x=name, y=y,
+            text=name,
+            showarrow=True,
+            yshift=10,
+            xshift=-10)
+    
+
+    fig.update_traces(marker_color=colors, width=widths)
     fig.update_xaxes(visible=False)
     fig.layout.paper_bgcolor ="rgb(209, 222, 224)"
     fig.update_layout(showlegend=False,legend_title_side='top')

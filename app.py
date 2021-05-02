@@ -21,6 +21,7 @@ import pandas as pd
 import preprocess
 import viz
 import os
+import numpy as np
 
 #from template import create_template
 #from modes import MODES
@@ -30,11 +31,11 @@ app = dash.Dash(__name__)
 server = app.server
 app.title = 'Surverses'
 
-#os_path = os.path.abspath("D:/Python Projects/INF8808/Projet_Surverses/OS_clean.csv")
-#step_path = os.path.abspath("D:/Python Projects/INF8808/Projet_Surverses/STEP.csv")
+os_path = os.path.abspath("D:/Python Projects/INF8808/Projet_Surverses/OS_clean.csv")
+step_path = os.path.abspath("D:/Python Projects/INF8808/Projet_Surverses/STEP.csv")
 
-os_path = os.path.abspath("OS_clean.csv")
-step_path = os.path.abspath("STEP.csv")
+#os_path = os.path.abspath("OS_clean.csv")
+#step_path = os.path.abspath("STEP.csv")
 
 dataframe_OS = pd.read_csv(os_path)
 dataframe_STEP = pd.read_csv(step_path)
@@ -143,7 +144,7 @@ app.layout = html.Div(className='content', children=[
 def update_graph(pts_size,pts_color,slider,clickdata):
     
     dataframe_OS = preprocess.data_filter(dataframe_OS_init,slider[0],slider[1])
-    dataframe_barmap = preprocess.data_bar_map(dataframe_OS, dataframe_STEP)
+    dataframe_barmap = preprocess.data_bar_map(dataframe_OS, dataframe_STEP, pts_size)
 
     name = ""
     classement = 0
@@ -152,7 +153,7 @@ def update_graph(pts_size,pts_color,slider,clickdata):
     else:
         name = clickdata["points"][0]["hovertext"]
         classement = preprocess.bar_ranking(dataframe_barmap, pts_size, name)
-        name = name.replace("Station", "station")
+        #name = name.replace("Station", "station")
         dataframe_linechart = preprocess.data_linechart(dataframe_OS,clickdata["points"][0]["hovertext"])
 
     figure_line=viz.line_chart(dataframe_linechart, pts_size, name)

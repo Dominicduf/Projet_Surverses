@@ -4,25 +4,6 @@
 import pandas as pd
 import numpy as np
 
-# Correction de la lattitude et de la longitude dans le fichier
-def correction_lat_long(my_df_STEP):
-    my_df_STEP['Latitude de l\'émissaire']=my_df_STEP['Latitude de l\'émissaire'].str.replace(',' , '')
-    my_df_STEP['Longitude de l\'émissaire']=my_df_STEP['Longitude de l\'émissaire'].str.replace(',' , '')
-
-    lat = []
-    long = []
-    for i in np.arange(0,my_df_STEP.shape[0]):
-        s_lat=my_df_STEP.iloc[i]['Latitude de l\'émissaire']
-        s_long=my_df_STEP.iloc[i]['Longitude de l\'émissaire']
-        s_lat = s_lat[:2] + '.' + s_lat[2:]
-        s_long = s_long[:3] + '.' + s_long[3:]
-        lat.append(s_lat)
-        long.append(s_long)
-
-    my_df_STEP['Latitude de l\'émissaire']=pd.DataFrame(lat).astype(float)
-    my_df_STEP['Longitude de l\'émissaire']=pd.DataFrame(long).astype(float)
-    return my_df_STEP
-
 # Filtrer les données pour le slider
 def data_filter(df,min,max):
     df['Date de début du débordement'] = pd.to_datetime(df['Date de début du débordement'])
@@ -50,22 +31,27 @@ def age_station(my_df):
     return my_df
 
 # Obtenir le contexte de débordement ayant la plus longue durée de débordement par station
-def contexte_max(my_df):
-    my_df=my_df.groupby(['Nom de la station d\'épuration ','Numéro de la station d\'épuration ','Contexte du débordement']).agg({'Durée de débordement (minutes)': 'sum'}).reset_index()
+def contexte_max(my_df, pts_size):
+    my_df=my_df.groupby(['Nom de la station d\'épuration ','Numéro de la station d\'épuration ','Contexte du débordement']).agg({'Durée de débordement (minutes)':'sum','Contexte du débordement':'count'})
+    my_df.rename(columns = {'Contexte du débordement':'Fréquence'}, inplace = True)
+    my_df=my_df.reset_index()
     my_df.rename(columns = {'Contexte du débordement':'Contexte du débordement max'}, inplace = True)
-    my_df=my_df.sort_values(by='Durée de débordement (minutes)', ascending=False)
-    my_df = my_df.drop_duplicates(subset=['Nom de la station d\'épuration '], keep='first')
-    my_df = my_df.drop(['Durée de débordement (minutes)'], axis = 1)
+    if pts_size == 'Durée de déversement':
+        my_df=my_df.sort_values(by='Durée de débordement (minutes)', ascending=False)
+    elif pts_size == 'Fréquence de déversements':
+        my_df=my_df.sort_values(by='Fréquence', ascending=False)
+    my_df = my_df.drop_duplicates(subset=['Nom de la station d\'épuration ','Numéro de la station d\'épuration '], keep='first')
+    my_df = my_df.drop(['Durée de débordement (minutes)', 'Fréquence'], axis = 1)
     return my_df
 
 # Données pour le bar chart et la carte
-def data_bar_map(my_df_OS, my_df_STEP):
+def data_bar_map(my_df_OS, my_df_STEP, pts_size):
     my_df_OS_group=my_df_OS.groupby(['Nom de la station d\'épuration ','Numéro de la station d\'épuration ']).agg({'Durée de débordement (minutes)': 'sum','Nom de la station d\'épuration ':'count'})
     my_df_OS_group.rename(columns = {'Nom de la station d\'épuration ':'Fréquence'}, inplace = True)
     my_df_OS_group= my_df_OS_group.reset_index()
 
     my_df_STEP = age_station(my_df_STEP)
-    my_df_contexte_max = contexte_max(my_df_OS)
+    my_df_contexte_max = contexte_max(my_df_OS, pts_size)
     my_df_STEP = my_df_STEP.merge(my_df_contexte_max, right_on=['Nom de la station d\'épuration ','Numéro de la station d\'épuration '], 
     left_on= ['Nom de la station d\'épuration','Numéro de la station d\'épuration'])
 
