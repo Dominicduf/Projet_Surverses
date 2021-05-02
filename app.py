@@ -46,7 +46,7 @@ dataframe_OS_init = preprocess.data_filter(dataframe_OS,2011,2019)
 app.layout = html.Div(className='content', children=[
     html.Header(children=[
         html.H1('Déversement des eaux non-traités dans les cours d\'eau du Québec'),
-        html.H2('Navigez la carte pour sélectionner une station d\'épuration d\'intérêt. Les graphiques à droite vont se mettre à jour pour vous donner des informations contextuelles.')
+        html.H2('Sélectionner une bulle sur la carte représentant une station d\'épuration et les graphiques à droite se metteront à jours. Vous serez en mesure de visualiser l\'évolution des causes de débordements ainsi que l\'ampleur du débordement en fonction des autres stations.')
     ]),
     html.Div(className='viz-container', children=[
     dcc.Graph(
@@ -153,7 +153,6 @@ def update_graph(pts_size,pts_color,slider,clickdata):
     else:
         name = clickdata["points"][0]["hovertext"]
         classement = preprocess.bar_ranking(dataframe_barmap, pts_size, name)
-        #name = name.replace("Station", "station")
         dataframe_linechart = preprocess.data_linechart(dataframe_OS,clickdata["points"][0]["hovertext"])
 
     figure_line=viz.line_chart(dataframe_linechart, pts_size, name)
