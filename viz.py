@@ -98,8 +98,8 @@ def bar_chart(df, mode, name, nb):
             showarrow=True,
             yshift=10)
 
-    fig.update_traces(marker_color=colors, width=widths,hovertemplate=None)
+    fig.update_traces(marker_color=colors, width=widths,hovertemplate=hover_template.barchart_hover_template())
     fig.update_xaxes(visible=False)
     fig.layout.paper_bgcolor ="rgb(209, 222, 224)"
-    fig.update_layout(showlegend=False,legend_title_side='top',hovermode=False)
+    fig.update_layout(showlegend=False,legend_title_side='top',hoverlabel=dict(bgcolor="white", font_size=14))
     return fig
