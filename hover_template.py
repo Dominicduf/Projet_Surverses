@@ -52,3 +52,17 @@ def linechart_freq_hover_template():
     "<b>Fréquence de débordement:</b> %{y}<br>"\
     "<extra></extra>"
     return string
+
+def barchart_hover_template():
+    '''
+        Sets the template for the hover tooltips on the neighborhoods.
+
+        The label is simply the name of the neighborhood in font 'Oswald'.
+
+        Returns:
+            The hover template.
+    '''
+    # TODO : Generate the hover template
+    string = "<b>Station:</b> %{x}<br>"\
+    "<extra></extra>"
+    return string
